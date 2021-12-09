@@ -8,10 +8,18 @@ public class Game {
 
     public final ArrayList<Boat> boatList;
     private final Boat.BoatType[] availableBoats;
+    public final List<ArrayList<String>> adversaryGrid;
 
     public Game(ArrayList<Boat> boatList, Boat.BoatType[] availableBoats) {
         this.boatList = boatList;
         this.availableBoats = availableBoats;
+        this.adversaryGrid = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            this.adversaryGrid.add(new ArrayList<>());
+            for (int j = 0; j < 10; j++) {
+                this.adversaryGrid.get(i).add("inconnu");
+            }
+        }
     }
 
     public boolean gameFinish() {
@@ -43,11 +51,10 @@ public class Game {
         return false;
     }
 
-    public List<ArrayList<String>> addAttackOnGrid(List<ArrayList<String>> adversaryGrid, String attackResult, String coo) {
+    public void addAttackOnGrid(String attackResult, String coo) {
         int row = coo.charAt(1)-'0' - 1;
         int col = List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0)));
-        adversaryGrid.get(row).set(col, attackResult);
-        return adversaryGrid;
+        this.adversaryGrid.get(row).set(col, attackResult);
     }
 
     public void showGrid(List<ArrayList<String>> grid) {

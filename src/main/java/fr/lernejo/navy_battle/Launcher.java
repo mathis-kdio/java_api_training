@@ -57,47 +57,40 @@ public class Launcher {
         //Respond
         http.createContext("/api/game/start", new PostRespond());
 
-        http.createContext("/api/game/fire", new FireResponse(game));
+        String adversaryURL = "http://localhost:8795";
+        if (args.length == 2) {
+            adversaryURL = "http://localhost:9876";
+        }
+
+        http.createContext("/api/game/fire", new FireResponse(game, adversaryURL));
 
         http.setExecutor(Executors.newFixedThreadPool(1));
         http.start();
-        String adversaryURL = "http://localhost:8795";
-
-        //Attendre que J2 fasse la requête
-        //while (adversaryURL == null)
 
         int nbTurn = 1;
         JSONObject jsonFireRespond;
-        List<ArrayList<String>> adversaryGrid = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            adversaryGrid.add(new ArrayList<>());
-            for (int j = 0; j < 10; j++) {
-                adversaryGrid.get(i).add("inconnu");
-            }
-        }
-        do {
+
+        if (args.length != 2) {
             System.out.println("Tour n°" + nbTurn);
             FireRequest fireRequest = new FireRequest();
             String coo = fireRequest.getCooAttack(scanner);
+            System.out.println(adversaryURL);
             jsonFireRespond = fireRequest.fire(adversaryURL, coo);
             String attackResult = jsonFireRespond.get("consequence").toString();
             if (attackResult.equals("hit")) {
                 System.out.println("Le tire a réussi");
-            }
-            else if (attackResult.equals("sunk")) {
+            } else if (attackResult.equals("sunk")) {
                 System.out.println("Le bateau est coulé");
-            }
-            else {
+            } else {
                 System.out.println("Le tire a manqué");
             }
-            adversaryGrid = game.addAttackOnGrid(adversaryGrid, attackResult, coo);
+            game.addAttackOnGrid(attackResult, coo);
             System.out.println("Grille ennemie");
-            game.showGrid(adversaryGrid);
-
-
-            nbTurn++;
-        } while (jsonFireRespond.get("shipLeft").equals(true));
-        System.out.println("Fin de la partie");
+            game.showGrid(game.adversaryGrid);
+        }
+        else {
+            System.out.println("C'est le joueur 1 qui commence");
+        }
     }
 
 }
