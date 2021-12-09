@@ -51,4 +51,23 @@ public class Game {
         return adversaryGrid;
     }
 
+    public void showGrid(List<ArrayList<String>> grid) {
+        System.out.print("  ");
+        for (int i = 0; i < 10; i++) {
+            System.out.print((i+1) + " ");
+        }
+        System.out.print("\n");
+        for (int i = 0; i < 10; i++) {
+            System.out.print(this.alphabetCoo[i] + " ");
+            for (int j = 0; j < 10; j++) {
+                if (grid.get(i).get(j).equals("hit")) {
+                    System.out.print("X ");
+                }
+                else {
+                    System.out.print("* ");
+                }
+            }
+            System.out.print("\n");
+        }
+    }
 }

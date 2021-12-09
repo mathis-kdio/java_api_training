@@ -91,6 +91,8 @@ public class Launcher {
                 System.out.println("Le tire a manqué");
             }
             adversaryGrid = game.addAttackOnGrid(adversaryGrid, attackResult, coo);
+            System.out.println("Grille ennemie");
+            game.showGrid(adversaryGrid);
             boolean isBoat = game.isBoatOnPosition(coo);
 
 
