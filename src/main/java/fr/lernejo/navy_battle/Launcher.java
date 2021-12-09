@@ -2,6 +2,7 @@ package fr.lernejo.navy_battle;
 
 import com.sun.net.httpserver.HttpServer;
 import fr.lernejo.navy_battle.api.game.fire.FireRequest;
+import fr.lernejo.navy_battle.api.game.fire.FireResponse;
 import fr.lernejo.navy_battle.api.game.start.PostRespond;
 import fr.lernejo.navy_battle.api.game.start.PostRequest;
 
