@@ -45,7 +45,7 @@ public class Game {
     }
 
     public List<ArrayList<String>> addAttackOnGrid(List<ArrayList<String>> adversaryGrid, String attackResult, String coo) {
-        int row = coo.charAt(1)-'0';
+        int row = coo.charAt(1)-'0' - 1;
         int col = List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0)));
         adversaryGrid.get(row).set(col, attackResult);
         return adversaryGrid;
@@ -54,11 +54,11 @@ public class Game {
     public void showGrid(List<ArrayList<String>> grid) {
         System.out.print("  ");
         for (int i = 0; i < 10; i++) {
-            System.out.print((i+1) + " ");
+            System.out.print(this.alphabetCoo[i] + " ");
         }
         System.out.print("\n");
         for (int i = 0; i < 10; i++) {
-            System.out.print(this.alphabetCoo[i] + " ");
+            System.out.print((i+1) + " ");
             for (int j = 0; j < 10; j++) {
                 if (grid.get(i).get(j).equals("hit")) {
                     System.out.print("X ");
