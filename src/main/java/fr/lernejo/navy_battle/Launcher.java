@@ -1,9 +1,7 @@
 package fr.lernejo.navy_battle;
 
 import com.sun.net.httpserver.HttpServer;
-import fr.lernejo.navy_battle.api.game.Boat;
-import fr.lernejo.navy_battle.api.game.Game;
-import fr.lernejo.navy_battle.api.game.InitGame;
+import fr.lernejo.navy_battle.api.game.fire.FireRequest;
 import fr.lernejo.navy_battle.api.game.start.PostRespond;
 import fr.lernejo.navy_battle.api.game.start.PostRequest;
 
@@ -46,13 +44,27 @@ public class Launcher {
 
         InitGame initGame = new InitGame(availableBoats);
         Game game = new Game(initGame.addAllBoats(scanner), availableBoats);
-
+        String adversaryURL = "http://localhost:8795";
         int nbTurn = 1;
         while (game.gameFinish()) {
             System.out.println("Tour n°" + nbTurn);
+            FireRequest fireRequest = new FireRequest();
+            List<Integer> coo = fireRequest.getCooAttack(scanner);
+            fireRequest.fire(adversaryURL, "A1");
+            boolean isBoat = game.isBoatOnPosition(coo);
+            if (isBoat == true) {
+                System.out.println("Le tire a réussi");
+                /*if (boat.life == 0) {
+                    System.out.println("Le bateau est coulé");
+                }*/
+            }
+            else {
+                System.out.println("Le tire a manqué");
+            }
+
             nbTurn++;
         }
-
+        System.out.println("Fin de la partie");
     }
 
 }
