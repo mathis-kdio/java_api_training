@@ -6,14 +6,10 @@ import java.util.List;
 public class Game {
     public final String[] alphabetCoo = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
-    public final ArrayList<String> playerGrid;
-    public final ArrayList<String> adversaryGrid;
     public final ArrayList<Boat> boatList;
     private final Boat.BoatType[] availableBoats;
 
     public Game(ArrayList<Boat> boatList, Boat.BoatType[] availableBoats) {
-        this.playerGrid = new ArrayList<>();
-        this.adversaryGrid = new ArrayList<>();
         this.boatList = boatList;
         this.availableBoats = availableBoats;
     }
@@ -47,4 +43,12 @@ public class Game {
         }
         return false;
     }
+
+    public List<ArrayList<String>> addAttackOnGrid(List<ArrayList<String>> adversaryGrid, String attackResult, String coo) {
+        int row = coo.charAt(1)-'0';
+        int col = List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0)));
+        adversaryGrid.get(row).set(col, attackResult);
+        return adversaryGrid;
+    }
+
 }

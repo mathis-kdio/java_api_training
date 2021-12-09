@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
@@ -22,6 +23,14 @@ public class Launcher {
         Scanner scanner = new Scanner(System.in);
         //Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.PORTE_AVION, Boat.BoatType.CROISEUR, Boat.BoatType.CONTRE_TORPILLEURS, Boat.BoatType.CONTRE_TORPILLEURS, Boat.BoatType.TORPILLEUR};
         Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.TORPILLEUR};
+
+        List<ArrayList<String>> playerGrid = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            playerGrid.add(new ArrayList<>());
+            for (int j = 0; j < 10; j++) {
+                playerGrid.get(i).add("inconnu");
+            }
+        }
 
         InitGame initGame = new InitGame(availableBoats);
         Game game = new Game(initGame.addAllBoats(scanner), availableBoats);
@@ -59,25 +68,29 @@ public class Launcher {
 
         int nbTurn = 1;
         JSONObject jsonFireRespond;
+        List<ArrayList<String>> adversaryGrid = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            adversaryGrid.add(new ArrayList<>());
+            for (int j = 0; j < 10; j++) {
+                adversaryGrid.get(i).add("inconnu");
+            }
+        }
         do {
             System.out.println("Tour n°" + nbTurn);
             FireRequest fireRequest = new FireRequest();
             String coo = fireRequest.getCooAttack(scanner);
-            System.out.println("TEST AFFICHAGE");
-            System.out.println(coo);
             jsonFireRespond = fireRequest.fire(adversaryURL, "A1");
-            System.out.println(jsonFireRespond);
-
-            if (jsonFireRespond.get("consequence").equals("hit")) {
+            String attackResult = jsonFireRespond.get("consequence").toString();
+            if (attackResult.equals("hit")) {
                 System.out.println("Le tire a réussi");
             }
-            else if (jsonFireRespond.get("consequence").equals("sunk")) {
+            else if (attackResult.equals("sunk")) {
                 System.out.println("Le bateau est coulé");
             }
             else {
                 System.out.println("Le tire a manqué");
             }
-
+            adversaryGrid = game.addAttackOnGrid(adversaryGrid, attackResult, coo);
             boolean isBoat = game.isBoatOnPosition(coo);
 
 
