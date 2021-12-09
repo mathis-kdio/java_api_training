@@ -68,10 +68,10 @@ public class Launcher {
             jsonFireRespond = fireRequest.fire(adversaryURL, "A1");
             System.out.println(jsonFireRespond);
 
-            if (jsonFireRespond.get("consequence") == "hit") {
+            if (jsonFireRespond.get("consequence").equals("hit")) {
                 System.out.println("Le tire a réussi");
             }
-            else if (jsonFireRespond.get("consequence") == "sunk") {
+            else if (jsonFireRespond.get("consequence").equals("sunk")) {
                 System.out.println("Le bateau est coulé");
             }
             else {
@@ -82,7 +82,7 @@ public class Launcher {
 
 
             nbTurn++;
-        } while (jsonFireRespond.get("shipLeft").equals(false));
+        } while (jsonFireRespond.get("shipLeft").equals(true));
         System.out.println("Fin de la partie");
     }
 

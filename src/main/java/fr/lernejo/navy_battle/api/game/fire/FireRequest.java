@@ -1,5 +1,8 @@
 package fr.lernejo.navy_battle.api.game.fire;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -13,15 +16,18 @@ public class FireRequest {
         return str;
     }
 
-    public void fire(String adversaryUrl, String cell) {
+    public JSONObject fire(String adversaryUrl, String cell) {
+        HttpResponse<String> response = null;
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(adversaryUrl + "/api/game/fire?cell=" + cell))
             .build();
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-            .thenApply(HttpResponse::body)
-            .thenAccept(System.out::println)
-            .join();
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        JSONObject jsonObject= new JSONObject(response.body());
+        return jsonObject;
     }
-
 }
