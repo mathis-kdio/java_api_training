@@ -15,11 +15,11 @@ public class InitGame {
     public List<Integer> getCoo(Scanner sc) {
         List<Integer> coo = new ArrayList<Integer>();
         System.out.println("Veuillez donner la colonne (lettre de A à J):");
-        String str = sc.nextLine();
-        coo.add(List.of(this.alphabetCoo).indexOf(str));
+        String col = sc.nextLine();
         System.out.println("Veuillez donner la rangée (de 1 à 10):");
-        str = sc.nextLine();
-        coo.add(Integer.parseInt(str));
+        String row = sc.nextLine();
+        coo.add(Integer.parseInt(row) - 1);
+        coo.add(List.of(this.alphabetCoo).indexOf(col));
         return coo;
     }
 

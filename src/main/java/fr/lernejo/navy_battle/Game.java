@@ -29,13 +29,12 @@ public class Game {
 
     public boolean isBoatOnPosition(String coo) {
         List<Integer> cell = new ArrayList<>();
-        cell.add((int) coo.charAt(1));
-        cell.add(List.of(this.alphabetCoo).indexOf(coo.charAt(0)));
-
+        cell.add(coo.charAt(1)-'0' - 1);
+        cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
         for (int i = 0; i < this.boatList.size(); i++) {
             ArrayList<List<Integer>> boatPositions = this.boatList.get(i).boatPositions();
             for (int j = 0; j < boatPositions.size(); j++) {
-                if (boatPositions.get(j) == cell) {
+                if (boatPositions.get(j).equals(cell)) {
                     boatList.get(i).setLife(1);
                     return true;
                 }

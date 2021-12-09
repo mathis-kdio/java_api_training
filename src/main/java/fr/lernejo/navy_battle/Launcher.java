@@ -57,7 +57,7 @@ public class Launcher {
         //Respond
         http.createContext("/api/game/start", new PostRespond());
 
-        http.createContext("/api/game/fire", new FireResponse());
+        http.createContext("/api/game/fire", new FireResponse(game));
 
         http.setExecutor(Executors.newFixedThreadPool(1));
         http.start();
@@ -79,7 +79,7 @@ public class Launcher {
             System.out.println("Tour n°" + nbTurn);
             FireRequest fireRequest = new FireRequest();
             String coo = fireRequest.getCooAttack(scanner);
-            jsonFireRespond = fireRequest.fire(adversaryURL, "A1");
+            jsonFireRespond = fireRequest.fire(adversaryURL, coo);
             String attackResult = jsonFireRespond.get("consequence").toString();
             if (attackResult.equals("hit")) {
                 System.out.println("Le tire a réussi");
@@ -93,7 +93,6 @@ public class Launcher {
             adversaryGrid = game.addAttackOnGrid(adversaryGrid, attackResult, coo);
             System.out.println("Grille ennemie");
             game.showGrid(adversaryGrid);
-            boolean isBoat = game.isBoatOnPosition(coo);
 
 
             nbTurn++;
