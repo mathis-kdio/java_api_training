@@ -1,4 +1,4 @@
-package fr.lernejo.navy_battle.api.game;
+package fr.lernejo.navy_battle.api.game.start;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -10,7 +10,7 @@ import java.io.OutputStream;
 
 import org.json.JSONObject;
 
-public class Start implements HttpHandler {
+public class PostRespond implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         if(exchange.getRequestMethod().equals("POST")) {
             InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(),"utf-8");
@@ -23,10 +23,10 @@ public class Start implements HttpHandler {
             br.close();
             isr.close();
             JSONObject jsonResquestBody= new JSONObject(requestBody);
+            //Si format JSON correct
             if (jsonResquestBody.has("id") && jsonResquestBody.has("url") && jsonResquestBody.has("message")) {
-                System.out.println(jsonResquestBody);
-
-                String body = "{\n\"id\": \"2aca7611-0ae4-49f3-bf63-75bef4769028\",\n\"url\": \"http://localhost:8796\",\n\"message\": \"May the best code win\"\n}";
+                //Réponse avec ID du programme
+                String body = "{\n\"id\": \"2aca7611-0ae4-49f3-bf63-75bef4769028\",\n\"url\": \"http://localhost:9876\",\n\"message\": \"May the best code win\"\n}";
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
                 exchange.sendResponseHeaders(202, body.length());
                 try (OutputStream os = exchange.getResponseBody()) {
@@ -50,5 +50,9 @@ public class Start implements HttpHandler {
                 os.write(body.getBytes());
             }
         }
+    }
+
+    public void PostRespond() {
+
     }
 }
