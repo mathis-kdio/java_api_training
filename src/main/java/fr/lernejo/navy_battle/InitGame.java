@@ -1,4 +1,4 @@
-package fr.lernejo.navy_battle.api.game;
+package fr.lernejo.navy_battle;
 
 import java.util.ArrayList;
 import java.util.List;

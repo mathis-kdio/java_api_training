@@ -1,4 +1,4 @@
-package fr.lernejo.navy_battle.api.game;
+package fr.lernejo.navy_battle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,10 @@ public class Boat {
     }
     public ArrayList<List<Integer>> boatPositions() {
         return this.positions;
+    }
+
+    public void setLife(Integer life) {
+        this.life = life;
     }
 
     public enum BoatType {
