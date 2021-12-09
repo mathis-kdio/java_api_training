@@ -23,7 +23,7 @@ public class Boat {
     }
 
     public void setLife(Integer life) {
-        this.life = life;
+        //this.life = life;
     }
 
     public enum BoatType {

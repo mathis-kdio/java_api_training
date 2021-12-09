@@ -4,22 +4,13 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class FireRequest {
-    public final String[] alphabetCoo = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-
-    public List<Integer> getCooAttack(Scanner sc) {
-        List<Integer> coo = new ArrayList<Integer>();
-        System.out.println("Veuillez donner la colonne (lettre de A à J):");
+    public String getCooAttack(Scanner sc) {
+        System.out.println("Veuillez donner la colonne (lettre de A à J) et la rangée (de 1 à 10):");
         String str = sc.nextLine();
-        coo.add(List.of(this.alphabetCoo).indexOf(str));
-        System.out.println("Veuillez donner la rangée (de 1 à 10):");
-        str = sc.nextLine();
-        coo.add(Integer.parseInt(str));
-        return coo;
+        return str;
     }
 
     public void fire(String adversaryUrl, String cell) {

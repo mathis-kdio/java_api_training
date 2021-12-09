@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+    public final String[] alphabetCoo = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+
     public final ArrayList<String> playerGrid;
     public final ArrayList<String> adversaryGrid;
     public final ArrayList<Boat> boatList;
@@ -29,11 +31,15 @@ public class Game {
             return false;
     }
 
-    public boolean isBoatOnPosition(List<Integer> coo) {
+    public boolean isBoatOnPosition(String coo) {
+        List<Integer> cell = new ArrayList<>();
+        cell.add((int) coo.charAt(1));
+        cell.add(List.of(this.alphabetCoo).indexOf(coo.charAt(0)));
+
         for (int i = 0; i < this.boatList.size(); i++) {
             ArrayList<List<Integer>> boatPositions = this.boatList.get(i).boatPositions();
             for (int j = 0; j < boatPositions.size(); j++) {
-                if (boatPositions.get(j) == coo) {
+                if (boatPositions.get(j) == cell) {
                     boatList.get(i).setLife(1);
                     return true;
                 }
