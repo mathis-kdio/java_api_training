@@ -49,7 +49,7 @@ public class Game {
         this.boatsLifes.set(boatIndex, this.boatsLifes.get(boatIndex)-1);
     }
 
-    public Boat boatOnPosition(String position) {
+    public Boat boatOnPosition(List<Integer> position) {
         for (Boat boat : this.boatList) {
             boolean isBoat = boat.isBoatOnPosition(position);
             if (isBoat)

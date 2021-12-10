@@ -16,13 +16,10 @@ public class Boat {
         return this.positions;
     }
 
-    public boolean isBoatOnPosition(String coo) {
-        List<Integer> cell = new ArrayList<>();
-        cell.add(coo.charAt(1)-'0' - 1);
-        cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
+    public boolean isBoatOnPosition(List<Integer> coo) {
         ArrayList<List<Integer>> boatPositions = boatPositions();
         for (List<Integer> boatPosition : boatPositions) {
-            if (boatPosition.equals(cell)) {
+            if (boatPosition.equals(coo)) {
                 return true;
             }
         }

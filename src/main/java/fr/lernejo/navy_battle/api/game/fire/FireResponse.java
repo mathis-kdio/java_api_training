@@ -7,10 +7,13 @@ import fr.lernejo.navy_battle.Game;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FireResponse implements HttpHandler {
     public final Game game;
     public final String adversaryURL;
+    public final String[] alphabetCoo = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
     public FireResponse(Game game, String adversaryURL) {
         this.game = game;
@@ -21,8 +24,11 @@ public class FireResponse implements HttpHandler {
         if(exchange.getRequestMethod().equals("GET")) {
             String query = exchange.getRequestURI().getQuery();
             String[] tokens = query.split("=");
-            String cellFire = tokens[1];
-            Boat boat = this.game.boatOnPosition(cellFire);
+            String coo = tokens[1];
+            List<Integer> cell = new ArrayList<>();
+            cell.add(coo.charAt(1)-'0' - 1);
+            cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
+            Boat boat = this.game.boatOnPosition(cell);
             String consequence;
             if (boat != null) {
                 consequence = "hit";
