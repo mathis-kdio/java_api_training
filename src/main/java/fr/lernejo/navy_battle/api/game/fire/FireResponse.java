@@ -22,10 +22,12 @@ public class FireResponse implements HttpHandler {
             String query = exchange.getRequestURI().getQuery();
             String[] tokens = query.split("=");
             String cellFire = tokens[1];
-            boolean isBoat = this.game.boatOnPosition(cellFire);
+            Boat boat = this.game.boatOnPosition(cellFire);
             String consequence;
-            if (isBoat)
+            if (boat != null) {
                 consequence = "hit";
+                this.game.boatLosesLife(boat);
+            }
             else
                 consequence = "miss";
 

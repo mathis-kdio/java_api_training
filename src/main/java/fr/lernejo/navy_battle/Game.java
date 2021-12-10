@@ -44,13 +44,18 @@ public class Game {
         return false;
     }
 
-    public boolean boatOnPosition(String position) {
+    public void boatLosesLife (Boat boat) {
+        int boatIndex = this.boatList.indexOf(boat);
+        this.boatsLifes.set(boatIndex, this.boatsLifes.get(boatIndex)-1);
+    }
+
+    public Boat boatOnPosition(String position) {
         for (Boat boat : this.boatList) {
             boolean isBoat = boat.isBoatOnPosition(position);
             if (isBoat)
-                return true;
+                return boat;
         }
-        return false;
+        return null;
     }
 
     public void addAttackOnGrid(String attackResult, String coo) {
