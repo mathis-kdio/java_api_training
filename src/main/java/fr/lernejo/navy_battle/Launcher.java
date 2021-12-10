@@ -45,7 +45,7 @@ public class Launcher {
 
         http.createContext("/ping", new CallHandler());
         //Respond
-        http.createContext("/api/game/start", new PostRespond());
+        http.createContext("/api/game/start", new PostRespond(game));
 
         String adversaryURL = "http://localhost:8795";
         if (args.length == 2) {
@@ -57,11 +57,7 @@ public class Launcher {
         http.setExecutor(Executors.newFixedThreadPool(1));
         http.start();
 
-        int nbTurn = 1;
-        if (args.length != 2) {
-            game.gameTurn(nbTurn, adversaryURL);
-        }
-        else {
+        if (args.length == 2) {
             System.out.println("C'est le joueur 1 qui commence");
         }
     }

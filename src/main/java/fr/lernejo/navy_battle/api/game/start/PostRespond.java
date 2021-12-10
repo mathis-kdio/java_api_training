@@ -8,9 +8,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
+import fr.lernejo.navy_battle.Game;
 import org.json.JSONObject;
 
 public class PostRespond implements HttpHandler {
+    public final Game game;
+
+    public PostRespond(Game game) {
+        this.game = game;
+    }
+
     public void handle(HttpExchange exchange) throws IOException {
         if(exchange.getRequestMethod().equals("POST")) {
             InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(),"utf-8");
@@ -34,6 +41,11 @@ public class PostRespond implements HttpHandler {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                String adversaryURL = jsonResquestBody.getString("url");
+                System.out.println(adversaryURL);
+                int nbTurn = 1;
+                game.gameTurn(nbTurn, adversaryURL);
             }
             else {
                 String body = "Bad Request";
@@ -50,9 +62,5 @@ public class PostRespond implements HttpHandler {
                 os.write(body.getBytes());
             }
         }
-    }
-
-    public void PostRespond() {
-
     }
 }
