@@ -3,11 +3,9 @@ package fr.lernejo.navy_battle.api.game.fire;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import fr.lernejo.navy_battle.Game;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Scanner;
 
 public class FireResponse implements HttpHandler {
     public final Game game;

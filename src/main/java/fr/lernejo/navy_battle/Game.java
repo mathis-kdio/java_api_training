@@ -32,26 +32,23 @@ public class Game {
 
     public boolean gameFinish() {
         int nbBoatAlive = this.availableBoats.length;
-        for (int i = 0; i < this.boatList.size(); i++) {
-            if(!this.boatList.get(i).isBoatAlive()) {
+        for (Boat boat : this.boatList) {
+            if (!boat.isBoatAlive()) {
                 nbBoatAlive--;
             }
         }
-        if (nbBoatAlive == 0)
-            return true;
-        else
-            return false;
+        return nbBoatAlive == 0;
     }
 
     public boolean isBoatOnPosition(String coo) {
         List<Integer> cell = new ArrayList<>();
         cell.add(coo.charAt(1)-'0' - 1);
         cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
-        for (int i = 0; i < this.boatList.size(); i++) {
-            ArrayList<List<Integer>> boatPositions = this.boatList.get(i).boatPositions();
-            for (int j = 0; j < boatPositions.size(); j++) {
-                if (boatPositions.get(j).equals(cell)) {
-                    boatList.get(i).setLife(1);
+        for (Boat boat : this.boatList) {
+            ArrayList<List<Integer>> boatPositions = boat.boatPositions();
+            for (List<Integer> boatPosition : boatPositions) {
+                if (boatPosition.equals(cell)) {
+                    boat.setLife(1);
                     return true;
                 }
             }

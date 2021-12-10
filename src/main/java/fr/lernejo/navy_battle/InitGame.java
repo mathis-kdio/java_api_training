@@ -18,7 +18,7 @@ public class InitGame {
     }
 
     public ArrayList<Boat> addAllBoats (Scanner scanner) {
-        ArrayList<Boat> boatList = new ArrayList<Boat>();
+        ArrayList<Boat> boatList = new ArrayList<>();
         for (int i = 0; i < this.availableBoats.length; i++) {
             System.out.println("Placement de: " + this.availableBoats[i] + ", taille de: " + this.availableBoats[i].getSize());
             ArrayList<List<Integer>> positions = new ArrayList<>();
@@ -36,8 +36,7 @@ public class InitGame {
     }
 
     public Boat addBoat (Boat.BoatType boatType, ArrayList<List<Integer>> positions) {
-        Boat boat = new Boat(boatType, positions);
-        return boat;
+        return new Boat(boatType, positions);
     }
 
 }

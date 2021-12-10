@@ -13,10 +13,7 @@ public class Boat {
         this.positions = positions;
     }
     public boolean isBoatAlive() {
-        if (this.life == 0)
-            return true;
-        else
-            return false;
+        return this.life == 0;
     }
     public ArrayList<List<Integer>> boatPositions() {
         return this.positions;
@@ -28,7 +25,7 @@ public class Boat {
 
     public enum BoatType {
         PORTE_AVION(5), CROISEUR(4), CONTRE_TORPILLEURS(3), TORPILLEUR(2);
-        private int size;
+        private final int size;
         public int getSize() {
             return this.size;
         }

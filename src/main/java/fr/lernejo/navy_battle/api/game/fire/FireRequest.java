@@ -12,8 +12,7 @@ import java.util.Scanner;
 public class FireRequest {
     public String getCooAttack(Scanner sc) {
         System.out.println("Veuillez donner la colonne (lettre de A à J) et la rangée (de 1 à 10):");
-        String str = sc.nextLine();
-        return str;
+        return sc.nextLine();
     }
 
     public JSONObject fire(String adversaryUrl, String cell) {
@@ -27,7 +26,6 @@ public class FireRequest {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        JSONObject jsonObject= new JSONObject(response.body());
-        return jsonObject;
+        return new JSONObject(response.body());
     }
 }
