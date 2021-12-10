@@ -5,22 +5,14 @@ import java.util.List;
 
 public class Boat {
     public final int size;
-    public final int life;
     public final ArrayList<List<Integer>> positions;
     public Boat(BoatType boatType, ArrayList<List<Integer>> positions) {
         this.size = boatType.getSize();
-        this.life = boatType.getSize();
         this.positions = positions;
     }
-    public boolean isBoatAlive() {
-        return this.life == 0;
-    }
+
     public ArrayList<List<Integer>> boatPositions() {
         return this.positions;
-    }
-
-    public void setLife(Integer life) {
-        //this.life = life;
     }
 
     public enum BoatType {

@@ -28,7 +28,9 @@ public class FireResponse implements HttpHandler {
             else
                 consequence = "miss";
 
-            String body = "{\n\"consequence\": \"" + consequence + "\",\n\"shipLeft\": true\n}";
+            boolean shipLeft = this.game.shipLeft();
+
+            String body = "{\n\"consequence\": \"" + consequence + "\",\n\"shipLeft\": " + shipLeft+ "\n}";
             exchange.getResponseHeaders().set("Content-Type", "application/json");
             exchange.sendResponseHeaders(202, body.length());
             try (OutputStream os = exchange.getResponseBody()) {
@@ -36,7 +38,12 @@ public class FireResponse implements HttpHandler {
                 setTour();
             }
             //Une fois que la réponse est envoyée, c'est au tour du joueur
-            game.gameTurn(0, adversaryURL);
+            if (shipLeft) {
+                game.gameTurn(0, adversaryURL);
+            }
+            else {
+                System.out.println("Partie terminée. Vous avez perdu");
+            }
 
         }
         else {

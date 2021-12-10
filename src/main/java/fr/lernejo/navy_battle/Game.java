@@ -11,6 +11,7 @@ public class Game {
     public final String[] alphabetCoo = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
     public final ArrayList<Boat> boatList;
+    public final ArrayList<Integer> boatsLifes;
     public final Boat.BoatType[] availableBoats;
     public final List<ArrayList<String>> adversaryGrid;
     public final List<ArrayList<String>> playerGrid;
@@ -18,6 +19,10 @@ public class Game {
     public Game(ArrayList<Boat> boatList, Boat.BoatType[] availableBoats) {
         this.boatList = boatList;
         this.availableBoats = availableBoats;
+        this.boatsLifes = new ArrayList<>(availableBoats.length);
+        for (Boat.BoatType availableBoat : availableBoats) {
+            boatsLifes.add(availableBoat.getSize());
+        }
         this.adversaryGrid = new ArrayList<>();
         this.playerGrid = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -30,25 +35,24 @@ public class Game {
         }
     }
 
-    public boolean gameFinish() {
-        int nbBoatAlive = this.availableBoats.length;
-        for (Boat boat : this.boatList) {
-            if (!boat.isBoatAlive()) {
-                nbBoatAlive--;
+    public boolean shipLeft() {
+        for (Integer boatsLife : this.boatsLifes) {
+            if (boatsLife != 0) {
+                return true;
             }
         }
-        return nbBoatAlive == 0;
+        return false;
     }
 
     public boolean isBoatOnPosition(String coo) {
         List<Integer> cell = new ArrayList<>();
         cell.add(coo.charAt(1)-'0' - 1);
         cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
-        for (Boat boat : this.boatList) {
-            ArrayList<List<Integer>> boatPositions = boat.boatPositions();
+        for (int i = 0; i < this.boatList.size(); i++) {
+            ArrayList<List<Integer>> boatPositions = this.boatList.get(i).boatPositions();
             for (List<Integer> boatPosition : boatPositions) {
                 if (boatPosition.equals(cell)) {
-                    boat.setLife(1);
+                    this.boatsLifes.set(i, this.boatsLifes.get(i)-1);
                     return true;
                 }
             }
@@ -96,6 +100,9 @@ public class Game {
             System.out.println("Le bateau est coulé");
         } else {
             System.out.println("Le tire a manqué");
+        }
+        if (shipLeft()) {
+            System.out.println("Partie terminée. Vous avez gagné");
         }
         addAttackOnGrid(attackResult, coo);
         System.out.println("Grille ennemie");
