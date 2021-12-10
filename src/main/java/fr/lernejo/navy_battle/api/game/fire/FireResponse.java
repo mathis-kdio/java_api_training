@@ -38,22 +38,7 @@ public class FireResponse implements HttpHandler {
                 setTour();
             }
             //Une fois que la réponse est envoyée, c'est au tour du joueur
-            Scanner scanner = new Scanner(System.in);
-            FireRequest fireRequest = new FireRequest();
-            String coo = fireRequest.getCooAttack(scanner);
-            JSONObject jsonFireRespond = fireRequest.fire(this.adversaryURL, coo);
-            String attackResult = jsonFireRespond.get("consequence").toString();
-            if (attackResult.equals("hit")) {
-                System.out.println("Le tire a réussi");
-            }
-            else if (attackResult.equals("sunk")) {
-                System.out.println("Le bateau est coulé");
-            }
-            else {
-                System.out.println("Le tire a manqué");
-            }
-            game.addAttackOnGrid(attackResult, coo);
-            game.showGrid(game.adversaryGrid);
+            game.gameTurn(0, adversaryURL);
 
         }
         else {

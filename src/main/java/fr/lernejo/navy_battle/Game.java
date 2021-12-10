@@ -1,23 +1,31 @@
 package fr.lernejo.navy_battle;
 
+import fr.lernejo.navy_battle.api.game.fire.FireRequest;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Game {
     public final String[] alphabetCoo = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
     public final ArrayList<Boat> boatList;
-    private final Boat.BoatType[] availableBoats;
+    public final Boat.BoatType[] availableBoats;
     public final List<ArrayList<String>> adversaryGrid;
+    public final List<ArrayList<String>> playerGrid;
 
     public Game(ArrayList<Boat> boatList, Boat.BoatType[] availableBoats) {
         this.boatList = boatList;
         this.availableBoats = availableBoats;
         this.adversaryGrid = new ArrayList<>();
+        this.playerGrid = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             this.adversaryGrid.add(new ArrayList<>());
+            this.playerGrid.add(new ArrayList<>());
             for (int j = 0; j < 10; j++) {
                 this.adversaryGrid.get(i).add("inconnu");
+                this.playerGrid.get(i).add("rien");
             }
         }
     }
@@ -75,5 +83,25 @@ public class Game {
             }
             System.out.print("\n");
         }
+    }
+
+    public void gameTurn(int nbTurn, String adversaryURL) {
+        System.out.println("Tour n°" + nbTurn);
+        FireRequest fireRequest = new FireRequest();
+        Scanner scanner = new Scanner(System.in);
+        String coo = fireRequest.getCooAttack(scanner);
+        System.out.println(adversaryURL);
+        JSONObject jsonFireRespond = fireRequest.fire(adversaryURL, coo);
+        String attackResult = jsonFireRespond.get("consequence").toString();
+        if (attackResult.equals("hit")) {
+            System.out.println("Le tire a réussi");
+        } else if (attackResult.equals("sunk")) {
+            System.out.println("Le bateau est coulé");
+        } else {
+            System.out.println("Le tire a manqué");
+        }
+        addAttackOnGrid(attackResult, coo);
+        System.out.println("Grille ennemie");
+        showGrid(adversaryGrid);
     }
 }
