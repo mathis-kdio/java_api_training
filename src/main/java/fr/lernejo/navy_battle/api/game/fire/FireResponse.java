@@ -37,7 +37,6 @@ public class FireResponse implements HttpHandler {
             exchange.sendResponseHeaders(202, body.length());
             try (OutputStream os = exchange.getResponseBody()) {
                 os.write(body.getBytes());
-                setTour();
             }
             //Une fois que la réponse est envoyée, c'est au tour du joueur
             if (shipLeft) {
@@ -55,9 +54,5 @@ public class FireResponse implements HttpHandler {
                 os.write(body.getBytes());
             }
         }
-    }
-
-    public void setTour() {
-        //this.tour = !this.tour;
     }
 }
