@@ -2,6 +2,7 @@ package fr.lernejo.navy_battle.api.game.fire;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import fr.lernejo.navy_battle.Boat;
 import fr.lernejo.navy_battle.Game;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class FireResponse implements HttpHandler {
             String query = exchange.getRequestURI().getQuery();
             String[] tokens = query.split("=");
             String cellFire = tokens[1];
-            boolean isBoat = this.game.isBoatOnPosition(cellFire);
+            boolean isBoat = this.game.boatOnPosition(cellFire);
             String consequence;
             if (isBoat)
                 consequence = "hit";
@@ -29,7 +30,6 @@ public class FireResponse implements HttpHandler {
                 consequence = "miss";
 
             boolean shipLeft = this.game.shipLeft();
-
             String body = "{\n\"consequence\": \"" + consequence + "\",\n\"shipLeft\": " + shipLeft+ "\n}";
             exchange.getResponseHeaders().set("Content-Type", "application/json");
             exchange.sendResponseHeaders(202, body.length());

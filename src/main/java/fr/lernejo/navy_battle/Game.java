@@ -44,18 +44,11 @@ public class Game {
         return false;
     }
 
-    public boolean isBoatOnPosition(String coo) {
-        List<Integer> cell = new ArrayList<>();
-        cell.add(coo.charAt(1)-'0' - 1);
-        cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
-        for (int i = 0; i < this.boatList.size(); i++) {
-            ArrayList<List<Integer>> boatPositions = this.boatList.get(i).boatPositions();
-            for (List<Integer> boatPosition : boatPositions) {
-                if (boatPosition.equals(cell)) {
-                    this.boatsLifes.set(i, this.boatsLifes.get(i)-1);
-                    return true;
-                }
-            }
+    public boolean boatOnPosition(String position) {
+        for (Boat boat : this.boatList) {
+            boolean isBoat = boat.isBoatOnPosition(position);
+            if (isBoat)
+                return true;
         }
         return false;
     }
