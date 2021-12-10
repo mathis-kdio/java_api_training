@@ -94,7 +94,8 @@ public class Game {
         } else {
             System.out.println("Le tire a manqué");
         }
-        if (shipLeft()) {
+        boolean isShipLeft = (Boolean) jsonFireRespond.get("shipLeft");
+        if (!isShipLeft) {
             System.out.println("Partie terminée. Vous avez gagné");
         }
         addAttackOnGrid(attackResult, coo);
