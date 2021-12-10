@@ -12,15 +12,9 @@ public class InitGame {
         this.availableBoats = availableBoats;
     }
 
-    public List<Integer> getCoo(Scanner sc) {
-        List<Integer> coo = new ArrayList<Integer>();
-        System.out.println("Veuillez donner la colonne (lettre de A à J):");
-        String col = sc.nextLine();
-        System.out.println("Veuillez donner la rangée (de 1 à 10):");
-        String row = sc.nextLine();
-        coo.add(Integer.parseInt(row) - 1);
-        coo.add(List.of(this.alphabetCoo).indexOf(col));
-        return coo;
+    public String getCoo(Scanner sc) {
+        System.out.println("Veuillez donner la colonne (lettre de A à J) et la rangée (de 1 à 10):");
+        return sc.nextLine();
     }
 
     public ArrayList<Boat> addAllBoats (Scanner scanner) {
@@ -29,7 +23,11 @@ public class InitGame {
             System.out.println("Placement de: " + this.availableBoats[i] + ", taille de: " + this.availableBoats[i].getSize());
             ArrayList<List<Integer>> positions = new ArrayList<>();
             for (int j = 0; j < this.availableBoats[i].getSize(); j++) {
-                positions.add(getCoo(scanner));
+                String coo = getCoo(scanner);
+                List<Integer> cell = new ArrayList<>();
+                cell.add(coo.charAt(1)-'0' - 1);
+                cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
+                positions.add(cell);
             }
             boatList.add(addBoat(this.availableBoats[i], positions));
             System.out.println(boatList.get(i).boatPositions());
