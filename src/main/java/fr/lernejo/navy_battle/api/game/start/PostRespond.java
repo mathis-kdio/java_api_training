@@ -43,9 +43,7 @@ public class PostRespond implements HttpHandler {
                 }
 
                 String adversaryURL = jsonResquestBody.getString("url");
-                System.out.println(adversaryURL);
-                int nbTurn = 1;
-                game.gameTurn(nbTurn, adversaryURL);
+                game.gameTurn(adversaryURL);
             }
             else {
                 String body = "Bad Request";

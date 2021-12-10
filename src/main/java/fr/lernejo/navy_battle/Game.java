@@ -58,10 +58,8 @@ public class Game {
         return null;
     }
 
-    public void addAttackOnGrid(String attackResult, String coo) {
-        int row = coo.charAt(1)-'0' - 1;
-        int col = List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0)));
-        this.adversaryGrid.get(row).set(col, attackResult);
+    public void addAttackOnGrid(String attackResult, List<Integer> coo) {
+        this.adversaryGrid.get(coo.get(0)).set(coo.get(1), attackResult);
     }
 
     public void showGrid(List<ArrayList<String>> grid) {
@@ -84,12 +82,11 @@ public class Game {
         }
     }
 
-    public void gameTurn(int nbTurn, String adversaryURL) {
-        System.out.println("Tour n°" + nbTurn);
+    public void gameTurn(String adversaryURL) {
         FireRequest fireRequest = new FireRequest();
         Scanner scanner = new Scanner(System.in);
         String coo = fireRequest.getCooAttack(scanner);
-        System.out.println(adversaryURL);
+
         JSONObject jsonFireRespond = fireRequest.fire(adversaryURL, coo);
         String attackResult = jsonFireRespond.get("consequence").toString();
         if (attackResult.equals("hit")) {
@@ -103,7 +100,13 @@ public class Game {
         if (!isShipLeft) {
             System.out.println("Partie terminée. Vous avez gagné");
         }
-        addAttackOnGrid(attackResult, coo);
+        List<Integer> cell = new ArrayList<>();
+        if (coo.length() == 2)
+            cell.add(Integer.parseInt(coo.substring(1, 2)) - 1);
+        else
+            cell.add(Integer.parseInt(coo.substring(1, 3)) - 1);
+        cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
+        addAttackOnGrid(attackResult, cell);
         System.out.println("Grille ennemie");
         showGrid(adversaryGrid);
     }

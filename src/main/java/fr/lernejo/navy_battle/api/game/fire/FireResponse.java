@@ -26,7 +26,10 @@ public class FireResponse implements HttpHandler {
             String[] tokens = query.split("=");
             String coo = tokens[1];
             List<Integer> cell = new ArrayList<>();
-            cell.add(coo.charAt(1)-'0' - 1);
+            if (coo.length() == 2)
+                cell.add(Integer.parseInt(coo.substring(1, 2)) - 1);
+            else
+                cell.add(Integer.parseInt(coo.substring(1, 3)) - 1);
             cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
             Boat boat = this.game.boatOnPosition(cell);
             String consequence;
@@ -46,7 +49,7 @@ public class FireResponse implements HttpHandler {
             }
             //Une fois que la réponse est envoyée, c'est au tour du joueur
             if (shipLeft) {
-                game.gameTurn(0, adversaryURL);
+                game.gameTurn(adversaryURL);
             }
             else {
                 System.out.println("Partie terminée. Vous avez perdu");
