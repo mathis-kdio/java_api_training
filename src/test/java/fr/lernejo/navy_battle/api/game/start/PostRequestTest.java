@@ -19,12 +19,12 @@ import java.util.concurrent.Executors;
 
 class PostRequestTest {
     public final HttpClient client;
+    public HttpServer http = null;
 
     public PostRequestTest() {
         InetSocketAddress addrToBind = new InetSocketAddress("localhost", 9876);
-        HttpServer http = null;
         try {
-            http = HttpServer.create(addrToBind,0);
+            this.http = HttpServer.create(addrToBind,0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,10 +37,10 @@ class PostRequestTest {
         Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.TORPILLEUR};
         Game game = new Game(boatList, availableBoats);
 
-        assert http != null;
-        http.createContext("/api/game/start", new PostRespond(game));
-        http.setExecutor(Executors.newFixedThreadPool(1));
-        http.start();
+        assert this.http != null;
+        this.http.createContext("/api/game/start", new PostRespond(game));
+        this.http.setExecutor(Executors.newFixedThreadPool(1));
+        this.http.start();
 
         this.client = HttpClient.newHttpClient();
     }
@@ -58,5 +58,6 @@ class PostRequestTest {
         Assertions.assertThat(this.client.send(requetePost, HttpResponse.BodyHandlers.ofString()).statusCode())
             .as("/api/game/start return 202")
             .isEqualTo(202);
+        this.http.stop(1);
     }
 }
