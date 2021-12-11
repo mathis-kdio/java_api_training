@@ -28,21 +28,48 @@ class InitGameTest {
     }
 
     @Test
-    void getCoo_should_return_string() {
+    void getCoo_1st_time_should_return_string() {
         System.setIn(new ByteArrayInputStream("A1".getBytes()));
         Scanner scanner = new Scanner(System.in);
         System.setIn(System.in);
         ArrayList<List<Integer>> positions = new ArrayList<>();
 
-        Assertions.assertThat(initGame.getCoo(scanner, positions)).as("shipLeft true")
+        Assertions.assertThat(initGame.getCoo(scanner, positions)).as("get coo success 1st time")
             .isEqualTo(Arrays.asList(0, 0));
     }
 
     @Test
-    void isCooPossible_should_return_Array_0_0() {
+    void getCoo_2nd_time_should_return_string() {
+        String simulatedUserInput = "Z1" + System.getProperty("line.separator") + "A1" + System.getProperty("line.separator");
+        System.setIn(new ByteArrayInputStream(simulatedUserInput.getBytes()));
+        System.setIn(System.in);
+        Scanner scanner = new Scanner(System.in);
+
+        ArrayList<List<Integer>> positions = new ArrayList<>();
+
+        Assertions.assertThat(initGame.getCoo(scanner, positions)).as("get coo success 2nd time")
+            .isEqualTo(Arrays.asList(0, 0));
+    }
+
+    @Test
+    void isCooPossible_1st_position_should_return_List() {
         ArrayList<List<Integer>> positions = new ArrayList<>();
         Assertions.assertThat(initGame.isCooPossible("A1", positions)).as("A1 = [0,0]")
             .isEqualTo(Arrays.asList(0, 0));
+    }
+
+    @Test
+    void isCooPossible_2nd_position_should_return_List() {
+        ArrayList<List<Integer>> positions = new ArrayList<>();
+        positions.add(Arrays.asList(2, 2)); //3C = "C3"
+        Assertions.assertThat(initGame.isCooPossible("C2", positions)).as("C2 = [1,2]")
+            .isEqualTo(Arrays.asList(1, 2));
+        Assertions.assertThat(initGame.isCooPossible("C4", positions)).as("C4 = [3,2]")
+            .isEqualTo(Arrays.asList(3, 2));
+        Assertions.assertThat(initGame.isCooPossible("B3", positions)).as("B3 = [2,1]")
+            .isEqualTo(Arrays.asList(2, 1));
+        Assertions.assertThat(initGame.isCooPossible("D3", positions)).as("D3 = [2,3]")
+            .isEqualTo(Arrays.asList(2, 3));
     }
 
     @Test
@@ -68,7 +95,7 @@ class InitGameTest {
         Assertions.assertThat(initGame.isCooPossible("J10", positions)).as("J10 déjà bateau")
             .isEqualTo(null);
 
-        positions.add(Arrays.asList(3, 3));
+        positions.add(Arrays.asList(2, 2)); //3C = "C3"
         Assertions.assertThat(initGame.isCooPossible("A3", positions)).as("A3 pas dans la continuité")
             .isEqualTo(null);
         Assertions.assertThat(initGame.isCooPossible("C1", positions)).as("C1 pas dans la continuité")
