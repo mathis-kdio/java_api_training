@@ -17,11 +17,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-class PostRequestTest {
+class PostRespondTest {
     public final HttpClient client;
     public HttpServer http = null;
 
-    public PostRequestTest() {
+    public PostRespondTest() {
         InetSocketAddress addrToBind = new InetSocketAddress("localhost", 9876);
         try {
             this.http = HttpServer.create(addrToBind,0);
@@ -47,7 +47,7 @@ class PostRequestTest {
 
 
     @Test
-    void PostRequest_should_return_202() throws IOException, InterruptedException {
+    void PostRespond_should_return_202() throws IOException, InterruptedException {
         HttpRequest requetePost = HttpRequest.newBuilder()
             .uri(URI.create("http://localhost:9876/api/game/start"))
             .setHeader("Accept", "application/json")
@@ -56,8 +56,35 @@ class PostRequestTest {
             .build();
 
         Assertions.assertThat(this.client.send(requetePost, HttpResponse.BodyHandlers.ofString()).statusCode())
-            .as("/api/game/start return 202")
+            .as("Post request /api/game/start return 202")
             .isEqualTo(202);
+        this.http.stop(1);
+    }
+
+    @Test
+    void PostRespond_should_return_404() throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:9876/ping"))
+            .build();
+
+        Assertions.assertThat(this.client.send(request, HttpResponse.BodyHandlers.ofString()).statusCode())
+            .as("Get request /api/game/start return 404")
+            .isEqualTo(404);
+        this.http.stop(1);
+    }
+
+    @Test
+    void PostRespond_should_return_400() throws IOException, InterruptedException {
+        HttpRequest requetePost = HttpRequest.newBuilder()
+            .uri(URI.create("http://localhost:9876/api/game/start"))
+            .setHeader("Accept", "application/json")
+            .setHeader("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString("{\"url\":\"http://localhost:9876\", \"message\":\"Programme 2 ID & url:port\"}"))
+            .build();
+
+        Assertions.assertThat(this.client.send(requetePost, HttpResponse.BodyHandlers.ofString()).statusCode())
+            .as("Post request without some arg /api/game/start return 400")
+            .isEqualTo(400);
         this.http.stop(1);
     }
 }
