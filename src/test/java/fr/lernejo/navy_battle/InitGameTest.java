@@ -1,11 +1,9 @@
 package fr.lernejo.navy_battle;
 
-import fr.lernejo.navy_battle.api.game.fire.FireRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +36,47 @@ class InitGameTest {
 
         Assertions.assertThat(initGame.getCoo(scanner, positions)).as("shipLeft true")
             .isEqualTo(Arrays.asList(0, 0));
+    }
+
+    @Test
+    void isCooPossible_should_return_Array_0_0() {
+        ArrayList<List<Integer>> positions = new ArrayList<>();
+        Assertions.assertThat(initGame.isCooPossible("A1", positions)).as("A1 = [0,0]")
+            .isEqualTo(Arrays.asList(0, 0));
+    }
+
+    @Test
+    void isCooPossible_should_return_null() {
+        ArrayList<List<Integer>> positions = new ArrayList<>();
+
+        Assertions.assertThat(initGame.isCooPossible("A", positions)).as("A incorrecte")
+            .isEqualTo(null);
+        Assertions.assertThat(initGame.isCooPossible("A1A1", positions)).as("A1A1 incorrect")
+            .isEqualTo(null);
+        Assertions.assertThat(initGame.isCooPossible("A11", positions)).as("A11 incorrect")
+            .isEqualTo(null);
+        Assertions.assertThat(initGame.isCooPossible("A0", positions)).as("A0 incorrect")
+            .isEqualTo(null);
+        Assertions.assertThat(initGame.isCooPossible("Z1", positions)).as("Z1 incorrect")
+            .isEqualTo(null);
+
+
+        ArrayList<List<Integer>> newBoatPositions = new ArrayList<>();
+        newBoatPositions.add(Arrays.asList(9, 9));
+        Boat newboat = initGame.addBoat(Boat.BoatType.TORPILLEUR, newBoatPositions);
+        initGame.boatList.add(newboat);
+        Assertions.assertThat(initGame.isCooPossible("J10", positions)).as("J10 déjà bateau")
+            .isEqualTo(null);
+
+        positions.add(Arrays.asList(3, 3));
+        Assertions.assertThat(initGame.isCooPossible("A3", positions)).as("A3 pas dans la continuité")
+            .isEqualTo(null);
+        Assertions.assertThat(initGame.isCooPossible("C1", positions)).as("C1 pas dans la continuité")
+            .isEqualTo(null);
+        Assertions.assertThat(initGame.isCooPossible("C5", positions)).as("B2 pas dans la continuité")
+            .isEqualTo(null);
+        Assertions.assertThat(initGame.isCooPossible("E3", positions)).as("B2 pas dans la continuité")
+            .isEqualTo(null);
     }
 
     @Test

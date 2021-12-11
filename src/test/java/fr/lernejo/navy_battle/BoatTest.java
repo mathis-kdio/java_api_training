@@ -12,7 +12,7 @@ class BoatTest {
     @Test
     void boatPositions_should_return_positions() {
         ArrayList<List<Integer>> positions = new ArrayList<>();
-        List<Integer> position = new ArrayList<>();;
+        List<Integer> position = new ArrayList<>();
         position.add(1);
         position.add(1);
         positions.add(position);
