@@ -16,13 +16,13 @@ class InitGameTest {
         this.initGame = new InitGame(availableBoats);
     }
 
-    @Test
+    /*@Test
     void addBoat_should_return_boat() {
         ArrayList<List<Integer>> positions = new ArrayList<>();
         positions.add(Arrays.asList(1, 1));
         Boat boat = new Boat(Boat.BoatType.TORPILLEUR, positions);
         Assertions.assertThat(initGame.addBoat(Boat.BoatType.TORPILLEUR, positions)).as("addBoat return boat")
             .isEqualTo(boat);
-    }
+    }*/
 
 }
