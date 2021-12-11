@@ -96,13 +96,16 @@ class InitGameTest {
             .isEqualTo(null);
 
         positions.add(Arrays.asList(2, 2)); //3C = "C3"
-        Assertions.assertThat(initGame.isCooPossible("A3", positions)).as("A3 pas dans la continuité")
+        Assertions.assertThat(initGame.isCooPossible("A3", positions)).as("A3 pas dans la continuité de C3")
             .isEqualTo(null);
-        Assertions.assertThat(initGame.isCooPossible("C1", positions)).as("C1 pas dans la continuité")
+        Assertions.assertThat(initGame.isCooPossible("C1", positions)).as("C1 pas dans la continuité de C3")
             .isEqualTo(null);
-        Assertions.assertThat(initGame.isCooPossible("C5", positions)).as("B2 pas dans la continuité")
+        Assertions.assertThat(initGame.isCooPossible("C5", positions)).as("C5 pas dans la continuité de C3")
             .isEqualTo(null);
-        Assertions.assertThat(initGame.isCooPossible("E3", positions)).as("B2 pas dans la continuité")
+        Assertions.assertThat(initGame.isCooPossible("E3", positions)).as("E3 pas dans la continuité de C3")
+            .isEqualTo(null);
+
+        Assertions.assertThat(initGame.isCooPossible("J9", positions)).as("J9 pas dans la continuité de C3")
             .isEqualTo(null);
     }
 
