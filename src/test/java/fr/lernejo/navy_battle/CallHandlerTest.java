@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 
 class CallHandlerTest {
 
-    /*@Test
+    @Test
     void CallHandler_should_return_OK() throws IOException, InterruptedException {
         InetSocketAddress addrToBind = new InetSocketAddress("localhost", 9876);
         HttpServer http = null;
@@ -29,19 +29,16 @@ class CallHandlerTest {
         http.setExecutor(Executors.newFixedThreadPool(1));
         http.start();
 
-        HttpResponse<String> response = null;
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create("http://localhost:9876/ping"))
             .build();
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        Assertions.assertThat(client.send(request, HttpResponse.BodyHandlers.ofString()))
-            .as("ping return ok")
-            .isEqualTo(response);
-    }*/
+        Assertions.assertThat(client.send(request, HttpResponse.BodyHandlers.ofString()).body())
+            .as("/ping return body = ok")
+            .isEqualTo("OK");
+        Assertions.assertThat(client.send(request, HttpResponse.BodyHandlers.ofString()).statusCode())
+            .as("/ping return statusCode = 200")
+            .isEqualTo(200);
+    }
 }
