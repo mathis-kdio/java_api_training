@@ -3,6 +3,8 @@ package fr.lernejo.navy_battle;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,5 +47,49 @@ class GameTest {
     void boatOnPosition_should_return_null() {
         Assertions.assertThat(this.game.boatOnPosition(Arrays.asList(0, 0))).as("boatOnPosition null")
             .isEqualTo(null);
+    }
+
+    @Test
+    void showGrid_no_hit() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        game.showGrid(game.adversaryGrid);
+
+        String expectedOutput =
+            "  A B C D E F G H I J \n" +
+            "1 * * * * * * * * * * \n" +
+            "2 * * * * * * * * * * \n" +
+            "3 * * * * * * * * * * \n" +
+            "4 * * * * * * * * * * \n" +
+            "5 * * * * * * * * * * \n" +
+            "6 * * * * * * * * * * \n" +
+            "7 * * * * * * * * * * \n" +
+            "8 * * * * * * * * * * \n" +
+            "9 * * * * * * * * * * \n" +
+            "10 * * * * * * * * * * \n";
+        Assertions.assertThat(outContent.toString()).as("grid with no hit")
+            .isEqualTo(expectedOutput);
+    }
+
+    @Test
+    void showGrid_1_hit() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        game.addAttackOnGrid("hit", Arrays.asList(0, 0));
+        game.showGrid(game.adversaryGrid);
+        String expectedOutput =
+            "  A B C D E F G H I J \n" +
+                "1 X * * * * * * * * * \n" +
+                "2 * * * * * * * * * * \n" +
+                "3 * * * * * * * * * * \n" +
+                "4 * * * * * * * * * * \n" +
+                "5 * * * * * * * * * * \n" +
+                "6 * * * * * * * * * * \n" +
+                "7 * * * * * * * * * * \n" +
+                "8 * * * * * * * * * * \n" +
+                "9 * * * * * * * * * * \n" +
+                "10 * * * * * * * * * * \n";
+        Assertions.assertThat(outContent.toString()).as("grid with 1 hit")
+            .isEqualTo(expectedOutput);
     }
 }
