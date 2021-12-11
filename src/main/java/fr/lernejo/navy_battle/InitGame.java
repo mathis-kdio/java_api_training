@@ -37,7 +37,6 @@ public class InitGame {
             }
             else { //Test s'il n'y a pas déjà un bateau
                 boolean alreadyBoat = false;
-                System.out.println(this.boatList.get(0).positions);
                 for (Boat boat : this.boatList) {
                     alreadyBoat = boat.isBoatOnPosition(cell);
                     if (alreadyBoat)
