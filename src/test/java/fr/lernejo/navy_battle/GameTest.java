@@ -56,17 +56,19 @@ class GameTest {
         game.showGrid(game.adversaryGrid);
 
         String expectedOutput =
-            "  A B C D E F G H I J \n" +
-            "1 * * * * * * * * * * \n" +
-            "2 * * * * * * * * * * \n" +
-            "3 * * * * * * * * * * \n" +
-            "4 * * * * * * * * * * \n" +
-            "5 * * * * * * * * * * \n" +
-            "6 * * * * * * * * * * \n" +
-            "7 * * * * * * * * * * \n" +
-            "8 * * * * * * * * * * \n" +
-            "9 * * * * * * * * * * \n" +
-            "10 * * * * * * * * * * \n";
+            """
+                  A B C D E F G H I J\s
+                1 * * * * * * * * * *\s
+                2 * * * * * * * * * *\s
+                3 * * * * * * * * * *\s
+                4 * * * * * * * * * *\s
+                5 * * * * * * * * * *\s
+                6 * * * * * * * * * *\s
+                7 * * * * * * * * * *\s
+                8 * * * * * * * * * *\s
+                9 * * * * * * * * * *\s
+                10 * * * * * * * * * *\s
+                """;
         Assertions.assertThat(outContent.toString()).as("grid with no hit")
             .isEqualTo(expectedOutput);
     }
@@ -78,17 +80,19 @@ class GameTest {
         game.addAttackOnGrid("hit", Arrays.asList(0, 0));
         game.showGrid(game.adversaryGrid);
         String expectedOutput =
-            "  A B C D E F G H I J \n" +
-                "1 X * * * * * * * * * \n" +
-                "2 * * * * * * * * * * \n" +
-                "3 * * * * * * * * * * \n" +
-                "4 * * * * * * * * * * \n" +
-                "5 * * * * * * * * * * \n" +
-                "6 * * * * * * * * * * \n" +
-                "7 * * * * * * * * * * \n" +
-                "8 * * * * * * * * * * \n" +
-                "9 * * * * * * * * * * \n" +
-                "10 * * * * * * * * * * \n";
+            """
+                  A B C D E F G H I J\s
+                1 X * * * * * * * * *\s
+                2 * * * * * * * * * *\s
+                3 * * * * * * * * * *\s
+                4 * * * * * * * * * *\s
+                5 * * * * * * * * * *\s
+                6 * * * * * * * * * *\s
+                7 * * * * * * * * * *\s
+                8 * * * * * * * * * *\s
+                9 * * * * * * * * * *\s
+                10 * * * * * * * * * *\s
+                """;
         Assertions.assertThat(outContent.toString()).as("grid with 1 hit")
             .isEqualTo(expectedOutput);
     }
