@@ -40,5 +40,6 @@ class CallHandlerTest {
         Assertions.assertThat(client.send(request, HttpResponse.BodyHandlers.ofString()).statusCode())
             .as("/ping return statusCode = 200")
             .isEqualTo(200);
+        http.stop(1);
     }
 }
