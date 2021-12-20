@@ -28,7 +28,7 @@ class FireRequestTest {
         Scanner scanner = new Scanner(System.in);
         System.setIn(System.in);
 
-        Assertions.assertThat(fireRequest.getCooAttack(scanner)).as("shipLeft true")
+        Assertions.assertThat(fireRequest.getCooAttack(scanner)).as("get coo attack")
             .isEqualTo("A1");
     }
 
