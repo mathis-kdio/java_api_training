@@ -34,8 +34,13 @@ public class FireResponse implements HttpHandler {
             Boat boat = this.game.boatOnPosition(cell);
             String consequence;
             if (boat != null) {
-                consequence = "hit";
                 this.game.boatLosesLife(boat);
+                if (this.game.boatsLifes.get(this.game.boatList.indexOf(boat)) == 0) {
+                    consequence = "sunk";
+                }
+                else {
+                    consequence = "hit";
+                }
             }
             else
                 consequence = "miss";
