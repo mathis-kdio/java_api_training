@@ -15,15 +15,6 @@ public class Launcher {
         if (args.length < 1)
             return;
 
-        //Placement des Bateaux
-        Scanner scanner = new Scanner(System.in);
-        //Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.PORTE_AVION, Boat.BoatType.CROISEUR, Boat.BoatType.CONTRE_TORPILLEURS, Boat.BoatType.CONTRE_TORPILLEURS, Boat.BoatType.TORPILLEUR};
-        Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.TORPILLEUR};
-
-        InitGame initGame = new InitGame(availableBoats);
-        Game game = new Game(availableBoats);
-
-
         //Requêtes POST pour que joueur 1 récupère l'URL et le port de joueur 2
         int myPort = Integer.parseInt(args[0]);
         InetSocketAddress addrToBind = new InetSocketAddress("localhost", myPort);
@@ -40,8 +31,19 @@ public class Launcher {
         if (args.length == 2) {
             new PostRequest(myPort, args[1]);
         }
+        http.setExecutor(Executors.newFixedThreadPool(1));
+        http.start();
 
         http.createContext("/ping", new CallHandler());
+
+        //Placement des Bateaux
+        Scanner scanner = new Scanner(System.in);
+        //Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.PORTE_AVION, Boat.BoatType.CROISEUR, Boat.BoatType.CONTRE_TORPILLEURS, Boat.BoatType.CONTRE_TORPILLEURS, Boat.BoatType.TORPILLEUR};
+        Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.TORPILLEUR};
+
+        InitGame initGame = new InitGame(availableBoats);
+        Game game = new Game(availableBoats);
+
         //Respond
         http.createContext("/api/game/start", new PostRespond(game));
 
@@ -51,9 +53,6 @@ public class Launcher {
         }
 
         http.createContext("/api/game/fire", new FireResponse(game, adversaryURL));
-
-        http.setExecutor(Executors.newFixedThreadPool(1));
-        http.start();
 
         game.setBoatList(initGame.addAllBoats(scanner));
         if (args.length == 2) {
