@@ -21,7 +21,7 @@ public class Launcher {
         Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.TORPILLEUR};
 
         InitGame initGame = new InitGame(availableBoats);
-        Game game = new Game(initGame.addAllBoats(scanner), availableBoats);
+        Game game = new Game(availableBoats);
 
 
         //Requêtes POST pour que joueur 1 récupère l'URL et le port de joueur 2
@@ -55,6 +55,7 @@ public class Launcher {
         http.setExecutor(Executors.newFixedThreadPool(1));
         http.start();
 
+        game.setBoatList(initGame.addAllBoats(scanner));
         if (args.length == 2) {
             System.out.println("C'est le joueur 1 qui commence");
         }

@@ -29,13 +29,12 @@ class PostRespondTest {
             e.printStackTrace();
         }
 
-        ArrayList<Boat> boatList = new ArrayList<>();
         ArrayList<List<Integer>> positions = new ArrayList<>();
         positions.add(Arrays.asList(0,0));
         positions.add(Arrays.asList(1,0));
         new Boat(Boat.BoatType.TORPILLEUR, positions);
         Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.TORPILLEUR};
-        Game game = new Game(boatList, availableBoats);
+        Game game = new Game(availableBoats);
 
         assert this.http != null;
         this.http.createContext("/api/game/start", new PostRespond(game));

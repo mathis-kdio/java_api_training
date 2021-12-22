@@ -16,8 +16,8 @@ public class Game {
     public final List<ArrayList<String>> adversaryGrid;
     public final List<ArrayList<String>> playerGrid;
 
-    public Game(ArrayList<Boat> boatList, Boat.BoatType[] availableBoats) {
-        this.boatList = boatList;
+    public Game(Boat.BoatType[] availableBoats) {
+        this.boatList = new ArrayList<Boat>();
         this.availableBoats = availableBoats;
         this.boatsLifes = new ArrayList<>(availableBoats.length);
         for (Boat.BoatType availableBoat : availableBoats) {
@@ -33,6 +33,10 @@ public class Game {
                 this.playerGrid.get(i).add("rien");
             }
         }
+    }
+
+    public void setBoatList(ArrayList<Boat> boatList) {
+        this.boatList.addAll(boatList);
     }
 
     public boolean shipLeft() {

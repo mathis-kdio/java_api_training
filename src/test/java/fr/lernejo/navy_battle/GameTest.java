@@ -20,7 +20,8 @@ class GameTest {
         positions.add(Arrays.asList(1, 1));
         this.boat = new Boat(Boat.BoatType.TORPILLEUR, positions);
         this.boatList.add(boat);
-        this.game = new Game(boatList, availableBoats);
+        this.game = new Game(availableBoats);
+        this.game.setBoatList(this.boatList);
     }
 
     @Test
