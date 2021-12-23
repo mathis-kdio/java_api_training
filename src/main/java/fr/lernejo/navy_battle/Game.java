@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Game {
     public final String[] alphabetCoo = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
@@ -15,6 +14,7 @@ public class Game {
     public final List<ArrayList<String>> adversaryGrid;
     public final List<ArrayList<String>> playerGrid;
     public final ArrayList<String> adversaryURL;
+    public final List<int[]> previousAttack = new ArrayList<int[]>();
 
     public Game(Boat.BoatType[] availableBoats, String[][] positionsBoats) {
         for (int i = 0; i < availableBoats.length; i++) {
@@ -85,12 +85,22 @@ public class Game {
     }
 
     public void gameTurn() {
-        FireRequest fireRequest = new FireRequest();
+        //Coo à attaquer brute force
         String coo = "A1";
-        //Coo a attaquer
+        if (this.previousAttack.size() != 0) {
+            previousAttack.get(0)[1]++; //Attaque sur rangée en dessous
+            if (previousAttack.get(0)[1] > 9) { //Retour en haut si pas de rangée après
+                previousAttack.get(0)[1] = 0;
+                previousAttack.get(0)[0]++; //Colonne suivante
+            }
+            coo = this.alphabetCoo[previousAttack.get(0)[0]] + (previousAttack.get(0)[1] + 1);
+        }
+        else {
+           previousAttack.add(new int[]{0, 0});
+        }
 
         System.out.println("Attaque de la case : " + coo);
-        JSONObject jsonFireRespond = fireRequest.fire(adversaryURL.get(0), coo);
+        JSONObject jsonFireRespond = new FireRequest().fire(adversaryURL.get(0), coo);
         String attackResult = jsonFireRespond.get("consequence").toString();
         if (attackResult.equals("hit")) {
             System.out.println("Le tire a réussi");
