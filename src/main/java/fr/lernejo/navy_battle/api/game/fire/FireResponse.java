@@ -12,12 +12,10 @@ import java.util.List;
 
 public class FireResponse implements HttpHandler {
     public final Game game;
-    public final String adversaryURL;
     public final String[] alphabetCoo = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
-    public FireResponse(Game game, String adversaryURL) {
+    public FireResponse(Game game) {
         this.game = game;
-        this.adversaryURL = adversaryURL;
     }
 
     public void handle(HttpExchange exchange) throws IOException {
@@ -54,7 +52,7 @@ public class FireResponse implements HttpHandler {
             }
             //Une fois que la réponse est envoyée, c'est au tour du joueur
             if (shipLeft) {
-                game.gameTurn(adversaryURL);
+                game.gameTurn();
             }
             else {
                 System.out.println("Partie terminée. Vous avez perdu");

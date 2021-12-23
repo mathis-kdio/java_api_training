@@ -27,37 +27,31 @@ public class Launcher {
         if (http == null)
             return;
 
-        //Si programme 2 alors url en 2ème arg donc envoi PostRequest
-        if (args.length == 2) {
-            new PostRequest(myPort, args[1]);
-        }
         http.setExecutor(Executors.newFixedThreadPool(1));
         http.start();
 
         http.createContext("/ping", new CallHandler());
 
         //Placement des Bateaux
-        Scanner scanner = new Scanner(System.in);
         //Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.PORTE_AVION, Boat.BoatType.CROISEUR, Boat.BoatType.CONTRE_TORPILLEURS, Boat.BoatType.CONTRE_TORPILLEURS, Boat.BoatType.TORPILLEUR};
         Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.TORPILLEUR};
-
         InitGame initGame = new InitGame(availableBoats);
         Game game = new Game(availableBoats);
 
-        //Respond
-        http.createContext("/api/game/start", new PostRespond(game));
-
-        String adversaryURL = "http://localhost:8795";
+        //Si programme 2 alors url en 2ème arg donc envoi PostRequest
         if (args.length == 2) {
-            adversaryURL = "http://localhost:9876";
+            new PostRequest(myPort, args[1]);
         }
+        //Respond
+        http.createContext("/api/game/start", new PostRespond(game, args[0]));
 
-        http.createContext("/api/game/fire", new FireResponse(game, adversaryURL));
+        //Fire API
+        http.createContext("/api/game/fire", new FireResponse(game));
 
-        game.setBoatList(initGame.addAllBoats(scanner));
+        //game.setBoatList(initGame.addAllBoats(new Scanner(System.in)));
+
         if (args.length == 2) {
             System.out.println("C'est le joueur 1 qui commence");
         }
     }
-
 }

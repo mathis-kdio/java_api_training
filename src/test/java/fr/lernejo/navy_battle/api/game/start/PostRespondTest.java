@@ -37,7 +37,7 @@ class PostRespondTest {
         Game game = new Game(availableBoats);
 
         assert this.http != null;
-        this.http.createContext("/api/game/start", new PostRespond(game));
+        this.http.createContext("/api/game/start", new PostRespond(game, "9876"));
         this.http.setExecutor(Executors.newFixedThreadPool(1));
         this.http.start();
 

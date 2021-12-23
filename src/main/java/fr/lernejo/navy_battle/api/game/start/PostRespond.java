@@ -13,9 +13,11 @@ import org.json.JSONObject;
 
 public class PostRespond implements HttpHandler {
     public final Game game;
+    public final String port;
 
-    public PostRespond(Game game) {
+    public PostRespond(Game game, String port) {
         this.game = game;
+        this.port = port;
     }
 
     public void handle(HttpExchange exchange) throws IOException {
@@ -29,11 +31,12 @@ public class PostRespond implements HttpHandler {
             String requestBody = buf.toString();
             br.close();
             isr.close();
-            JSONObject jsonResquestBody= new JSONObject(requestBody);
+            JSONObject jsonResquestBody = new JSONObject(requestBody);
             //Si format JSON correct
             if (jsonResquestBody.has("id") && jsonResquestBody.has("url") && jsonResquestBody.has("message")) {
+                this.game.adversaryURL.add((String) jsonResquestBody.get("url"));
                 //Réponse avec ID du programme
-                String body = "{\n\"id\": \"2aca7611-0ae4-49f3-bf63-75bef4769028\",\n\"url\": \"http://localhost:9876\",\n\"message\": \"May the best code win\"\n}";
+                String body = "{\n\"id\": \"2aca7611-0ae4-49f3-bf63-75bef4769028\",\n\"url\": \"http://localhost:" + this.port +"\",\n\"message\": \"May the best code win\"\n}";
                 exchange.getResponseHeaders().set("Content-Type", "application/json");
                 exchange.sendResponseHeaders(202, body.length());
                 try (OutputStream os = exchange.getResponseBody()) {
@@ -42,8 +45,7 @@ public class PostRespond implements HttpHandler {
                     e.printStackTrace();
                 }
 
-                String adversaryURL = jsonResquestBody.getString("url");
-                game.gameTurn(adversaryURL);
+                this.game.gameTurn();
             }
             else {
                 String body = "Bad Request";

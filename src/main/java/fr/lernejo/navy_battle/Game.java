@@ -15,6 +15,7 @@ public class Game {
     public final Boat.BoatType[] availableBoats;
     public final List<ArrayList<String>> adversaryGrid;
     public final List<ArrayList<String>> playerGrid;
+    public final ArrayList<String> adversaryURL;
 
     public Game(Boat.BoatType[] availableBoats) {
         this.boatList = new ArrayList<Boat>();
@@ -33,6 +34,7 @@ public class Game {
                 this.playerGrid.get(i).add("rien");
             }
         }
+        this.adversaryURL = new ArrayList<>();
     }
 
     public void setBoatList(ArrayList<Boat> boatList) {
@@ -86,12 +88,12 @@ public class Game {
         }
     }
 
-    public void gameTurn(String adversaryURL) {
+    public void gameTurn() {
         FireRequest fireRequest = new FireRequest();
         Scanner scanner = new Scanner(System.in);
         String coo = fireRequest.getCooAttack(scanner);
 
-        JSONObject jsonFireRespond = fireRequest.fire(adversaryURL, coo);
+        JSONObject jsonFireRespond = fireRequest.fire(adversaryURL.get(0), coo);
         String attackResult = jsonFireRespond.get("consequence").toString();
         if (attackResult.equals("hit")) {
             System.out.println("Le tire a réussi");
