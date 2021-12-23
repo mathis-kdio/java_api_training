@@ -7,7 +7,6 @@ import fr.lernejo.navy_battle.api.game.start.PostRequest;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.*;
 import java.util.concurrent.Executors;
 
 public class Launcher {
@@ -43,7 +42,7 @@ public class Launcher {
 
         //Placement des Bateaux
         Boat.BoatType[] availableBoats = {Boat.BoatType.TORPILLEUR, Boat.BoatType.PORTE_AVION, Boat.BoatType.CROISEUR, Boat.BoatType.CONTRE_TORPILLEURS, Boat.BoatType.CONTRE_TORPILLEURS};
-        String[][] positionsBoats = {{"A1", "A2"}, {"B1", "C1","D1","E1","F1"}, {"A5", "B5","C5","D5"}, {"E5", "E6","E7"}, {"C6", "C7",}};
+        String[][] positionsBoats = {{"A1", "A2"}, {"B1", "C1","D1","E1","F1"}, {"A5", "B5","C5","D5"}, {"E5", "E6","E7"}, {"C6", "C7","C8"}};
         Game game = new Game(availableBoats, positionsBoats);
         if (args.length == 2) {
             System.out.println("C'est le joueur 1 qui commence");

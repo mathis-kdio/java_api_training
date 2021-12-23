@@ -14,7 +14,7 @@ public class Game {
     public final List<ArrayList<String>> adversaryGrid;
     public final List<ArrayList<String>> playerGrid;
     public final ArrayList<String> adversaryURL;
-    public final List<int[]> previousAttack = new ArrayList<int[]>();
+    public final List<int[]> previousAttack = new ArrayList<>();
 
     public Game(Boat.BoatType[] availableBoats, String[][] positionsBoats) {
         for (int i = 0; i < availableBoats.length; i++) {
