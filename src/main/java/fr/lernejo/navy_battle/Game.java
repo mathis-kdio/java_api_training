@@ -86,9 +86,10 @@ public class Game {
 
     public void gameTurn() {
         FireRequest fireRequest = new FireRequest();
-        Scanner scanner = new Scanner(System.in);
-        String coo = fireRequest.getCooAttack(scanner);
+        String coo = "A1";
+        //Coo a attaquer
 
+        System.out.println("Attaque de la case : " + coo);
         JSONObject jsonFireRespond = fireRequest.fire(adversaryURL.get(0), coo);
         String attackResult = jsonFireRespond.get("consequence").toString();
         if (attackResult.equals("hit")) {

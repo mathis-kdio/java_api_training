@@ -21,17 +21,6 @@ import java.util.Scanner;
 
 class FireRequestTest {
 
-    @Test
-    void getCooAttack_should_return_string() {
-        FireRequest fireRequest = new FireRequest();
-        System.setIn(new ByteArrayInputStream("A1".getBytes()));
-        Scanner scanner = new Scanner(System.in);
-        System.setIn(System.in);
-
-        Assertions.assertThat(fireRequest.getCooAttack(scanner)).as("get coo attack")
-            .isEqualTo("A1");
-    }
-
     /*@Test
     void fire_should_return_JSONObject() {
         FireRequest fireRequest = new FireRequest();

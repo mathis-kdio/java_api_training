@@ -57,7 +57,6 @@ public class FireResponse implements HttpHandler {
             else {
                 System.out.println("Partie terminée. Vous avez perdu");
             }
-
         }
         else {
             String body = "Not Found";
