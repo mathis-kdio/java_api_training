@@ -19,7 +19,7 @@ public class FireResponse implements HttpHandler {
     }
 
     public void handle(HttpExchange exchange) throws IOException {
-        if(exchange.getRequestMethod().equals("GET")) {
+        if (exchange.getRequestMethod().equals("GET")) {
             String query = exchange.getRequestURI().getQuery();
             String[] tokens = query.split("=");
             String coo = tokens[1];

@@ -11,15 +11,17 @@ import java.net.http.HttpResponse;
 public class FireRequest {
     public JSONObject fire(String adversaryUrl, String cell) {
         HttpResponse<String> response = null;
-        HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(adversaryUrl + "/api/game/fire?cell=" + cell))
+            .setHeader("Accept", "application/json")
+            .setHeader("Content-Type", "application/json")
             .build();
         try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        assert response != null;
         return new JSONObject(response.body());
     }
 }
