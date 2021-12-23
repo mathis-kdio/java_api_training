@@ -39,4 +39,26 @@ class GameTest {
         Assertions.assertThat(this.game.boatOnPosition(new int[]{0,0})).as("boatOnPosition null")
             .isEqualTo(null);
     }
+
+    @Test
+    void generateNextCoo_should_A1() {
+        Assertions.assertThat(this.game.generateNextCoo()).as("generateNextCoo default : A1")
+            .isEqualTo("A1");
+    }
+
+    @Test
+    void generateNextCoo_should_A2() {
+        this.game.generateNextCoo();
+        Assertions.assertThat(this.game.generateNextCoo()).as("generateNextCoo second : A2")
+            .isEqualTo("A2");
+    }
+
+    @Test
+    void generateNextCoo_should_B1() {
+        for (int i = 0; i < 10; i++)
+            this.game.generateNextCoo();
+        Assertions.assertThat(this.game.generateNextCoo()).as("generateNextCoo new col : B1")
+            .isEqualTo("B1");
+    }
+
 }
