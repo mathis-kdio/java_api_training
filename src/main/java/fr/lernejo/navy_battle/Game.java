@@ -73,7 +73,7 @@ public class Game {
         for (int i = 0; i < 10; i++) {
             System.out.print((i+1) + " ");
             for (int j = 0; j < 10; j++) {
-                if (grid.get(i).get(j).equals("hit")) {
+                if (grid.get(i).get(j).equals("hit") || grid.get(i).get(j).equals("sunk")) {
                     System.out.print("X ");
                 }
                 else {
@@ -114,11 +114,8 @@ public class Game {
             System.out.println("Partie terminée. Vous avez gagné");
         }
         List<Integer> cell = new ArrayList<>();
-        if (coo.length() == 2)
-            cell.add(Integer.parseInt(coo.substring(1, 2)) - 1);
-        else
-            cell.add(Integer.parseInt(coo.substring(1, 3)) - 1);
-        cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
+        cell.add(previousAttack.get(0)[1]);
+        cell.add(previousAttack.get(0)[0]);
         addAttackOnGrid(attackResult, cell);
         System.out.println("Grille ennemie");
         showGrid(adversaryGrid);
