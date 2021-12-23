@@ -5,23 +5,17 @@ import org.assertj.core.api.Assertions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 class GameTest {
-    public final Boat.BoatType[] availableBoats = new Boat.BoatType[]{Boat.BoatType.TORPILLEUR};
-    public final ArrayList<List<Integer>> positions = new ArrayList<>();
+    public final Boat.BoatType[] availableBoats = {Boat.BoatType.TORPILLEUR};
+    String[][] positionsBoats = {{"B1", "B2"}};
     public final Boat boat;
-    public final ArrayList<Boat> boatList = new ArrayList<>();
     public final Game game;
 
     public GameTest() {
-        positions.add(Arrays.asList(1, 1));
-        this.boat = new Boat(Boat.BoatType.TORPILLEUR, positions);
-        this.boatList.add(boat);
-        this.game = new Game(availableBoats);
-        this.game.setBoatList(this.boatList);
+        this.game = new Game(this.availableBoats, this.positionsBoats);
+        this.boat = this.game.boatList.get(0);
     }
 
     @Test

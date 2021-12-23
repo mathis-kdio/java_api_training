@@ -10,19 +10,19 @@ import java.util.Scanner;
 public class Game {
     public final String[] alphabetCoo = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
-    public final ArrayList<Boat> boatList;
+    public final ArrayList<Boat> boatList = new ArrayList<>();
     public final ArrayList<Integer> boatsLifes;
-    public final Boat.BoatType[] availableBoats;
     public final List<ArrayList<String>> adversaryGrid;
     public final List<ArrayList<String>> playerGrid;
     public final ArrayList<String> adversaryURL;
 
-    public Game(Boat.BoatType[] availableBoats) {
-        this.boatList = new ArrayList<Boat>();
-        this.availableBoats = availableBoats;
-        this.boatsLifes = new ArrayList<>(availableBoats.length);
-        for (Boat.BoatType availableBoat : availableBoats) {
-            boatsLifes.add(availableBoat.getSize());
+    public Game(Boat.BoatType[] availableBoats, String[][] positionsBoats) {
+        for (int i = 0; i < availableBoats.length; i++) {
+            this.boatList.add(new Boat(availableBoats[i], positionsBoats[i]));
+        }
+        this.boatsLifes = new ArrayList<>();
+        for (Boat boat : this.boatList) {
+            this.boatsLifes.add(boat.size);
         }
         this.adversaryGrid = new ArrayList<>();
         this.playerGrid = new ArrayList<>();
@@ -35,10 +35,6 @@ public class Game {
             }
         }
         this.adversaryURL = new ArrayList<>();
-    }
-
-    public void setBoatList(ArrayList<Boat> boatList) {
-        this.boatList.addAll(boatList);
     }
 
     public boolean shipLeft() {

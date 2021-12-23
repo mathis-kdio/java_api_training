@@ -13,10 +13,10 @@ class BoatTest {
     void boatPositions_should_return_positions() {
         ArrayList<List<Integer>> positions = new ArrayList<>();
         List<Integer> position = new ArrayList<>();
-        position.add(1);
-        position.add(1);
+        position.add(0);
+        position.add(0);
         positions.add(position);
-        Boat boat = new Boat(Boat.BoatType.TORPILLEUR, positions);
+        Boat boat = new Boat(Boat.BoatType.TORPILLEUR, new String[]{"A1"});
         Assertions.assertThat(boat.boatPositions()).as("return positions")
             .isEqualTo(positions);
     }
