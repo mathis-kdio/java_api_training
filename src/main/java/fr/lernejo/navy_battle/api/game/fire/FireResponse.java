@@ -7,7 +7,6 @@ import fr.lernejo.navy_battle.Game;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FireResponse implements HttpHandler {
@@ -28,7 +27,7 @@ public class FireResponse implements HttpHandler {
         return new int[]{row, col};
     }
 
-    public String returnConsequenc(Boat boat) {
+    public String returnConsequence(Boat boat) {
         String consequence;
         if (boat != null) {
             this.game.boatLosesLife(boat);
@@ -46,7 +45,7 @@ public class FireResponse implements HttpHandler {
         if (exchange.getRequestMethod().equals("GET")) {
             String query = exchange.getRequestURI().getQuery();
             int[] coo = convertCooStrToInt(query.split("=")[1]);
-            String consequence = returnConsequenc(this.game.boatOnPosition(coo));
+            String consequence = returnConsequence(this.game.boatOnPosition(coo));
             boolean shipLeft = this.game.shipLeft();
             String body = "{\n\"consequence\": \"" + consequence + "\",\n\"shipLeft\": " + shipLeft+ "\n}";
             writeReponse(exchange, body, 202);
