@@ -34,13 +34,13 @@ class GameTest {
 
     @Test
     void boatOnPosition_should_return_boat() {
-        Assertions.assertThat(this.game.boatOnPosition(Arrays.asList(1, 1))).as("boatOnPosition boat")
+        Assertions.assertThat(this.game.boatOnPosition(new int[]{1,1})).as("boatOnPosition boat")
             .isEqualTo(this.boat);
     }
 
     @Test
     void boatOnPosition_should_return_null() {
-        Assertions.assertThat(this.game.boatOnPosition(Arrays.asList(0, 0))).as("boatOnPosition null")
+        Assertions.assertThat(this.game.boatOnPosition(new int[]{0,0})).as("boatOnPosition null")
             .isEqualTo(null);
     }
 

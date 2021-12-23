@@ -18,52 +18,53 @@ public class FireResponse implements HttpHandler {
         this.game = game;
     }
 
+    public int[] convertCooStrToInt(String coo) {
+        int col, row;
+        if (coo.length() == 2)
+            row = Integer.parseInt(coo.substring(1, 2)) - 1;
+        else
+            row = Integer.parseInt(coo.substring(1, 3)) - 1;
+        col = List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0)));
+        return new int[]{row, col};
+    }
+
+    public String returnConsequenc(Boat boat) {
+        String consequence;
+        if (boat != null) {
+            this.game.boatLosesLife(boat);
+            if (this.game.boatsLifes.get(this.game.boatList.indexOf(boat)) == 0)
+                consequence = "sunk";
+            else
+                consequence = "hit";
+        }
+        else
+            consequence = "miss";
+        return consequence;
+    }
+
     public void handle(HttpExchange exchange) throws IOException {
         if (exchange.getRequestMethod().equals("GET")) {
             String query = exchange.getRequestURI().getQuery();
-            String[] tokens = query.split("=");
-            String coo = tokens[1];
-            List<Integer> cell = new ArrayList<>();
-            if (coo.length() == 2)
-                cell.add(Integer.parseInt(coo.substring(1, 2)) - 1);
-            else
-                cell.add(Integer.parseInt(coo.substring(1, 3)) - 1);
-            cell.add(List.of(this.alphabetCoo).indexOf(String.valueOf(coo.charAt(0))));
-            Boat boat = this.game.boatOnPosition(cell);
-            String consequence;
-            if (boat != null) {
-                this.game.boatLosesLife(boat);
-                if (this.game.boatsLifes.get(this.game.boatList.indexOf(boat)) == 0) {
-                    consequence = "sunk";
-                }
-                else {
-                    consequence = "hit";
-                }
-            }
-            else
-                consequence = "miss";
-
+            int[] coo = convertCooStrToInt(query.split("=")[1]);
+            String consequence = returnConsequenc(this.game.boatOnPosition(coo));
             boolean shipLeft = this.game.shipLeft();
             String body = "{\n\"consequence\": \"" + consequence + "\",\n\"shipLeft\": " + shipLeft+ "\n}";
-            exchange.getResponseHeaders().set("Content-Type", "application/json");
-            exchange.sendResponseHeaders(202, body.length());
-            try (OutputStream os = exchange.getResponseBody()) {
-                os.write(body.getBytes());
-            }
-            //Une fois que la réponse est envoyée, c'est au tour du joueur
-            if (shipLeft) {
+            writeReponse(exchange, body, 202);
+
+            if (shipLeft) //Une fois que la réponse est envoyée, c'est au tour du joueur
                 game.gameTurn();
-            }
-            else {
+            else // S'il ne reste plus de bateaux alors fin
                 System.out.println("Partie terminée. Vous avez perdu");
-            }
         }
-        else {
-            String body = "Not Found";
-            exchange.sendResponseHeaders(404 , body.length());
-            try (OutputStream os = exchange.getResponseBody()) {
-                os.write(body.getBytes());
-            }
+        else
+            writeReponse(exchange, "Not Found", 404);
+    }
+
+    public void writeReponse(HttpExchange exchange, String body, Integer rCode) throws IOException {
+        exchange.getResponseHeaders().set("Content-Type", "application/json");
+        exchange.sendResponseHeaders(rCode, body.length());
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(body.getBytes());
         }
     }
 }
