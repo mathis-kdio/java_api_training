@@ -7,6 +7,7 @@ import java.net.http.HttpResponse;
 
 public class PostRequest {
     public PostRequest(int port, String adversaryUrl) {
+        System.out.println("Requête api start");
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest requetePost = HttpRequest.newBuilder()
             .uri(URI.create(adversaryUrl + "/api/game/start"))
@@ -18,5 +19,6 @@ public class PostRequest {
             .thenApply(HttpResponse::body)
             .thenAccept(System.out::println)
             .join();
+        System.out.println("C'est le joueur 1 qui commence");
     }
 }
