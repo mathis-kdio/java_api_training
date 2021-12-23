@@ -64,4 +64,31 @@ public class AffichageTest {
         Assertions.assertThat(outContent.toString()).as("grid with 1 hit")
             .isEqualTo(expectedOutput);
     }
+
+    @Test
+    void resultAttack_hit() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        this.affichage.resultAttack("hit");
+        Assertions.assertThat(outContent.toString()).as("show success message")
+            .isEqualTo("Le tire a réussi\n");
+    }
+
+    @Test
+    void resultAttack_sunk() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        this.affichage.resultAttack("sunk");
+        Assertions.assertThat(outContent.toString()).as("show sunk message")
+            .isEqualTo("Le bateau est coulé\n");
+    }
+
+    @Test
+    void resultAttack_miss() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        this.affichage.resultAttack("miss");
+        Assertions.assertThat(outContent.toString()).as("show miss message")
+            .isEqualTo("Le tire a manqué\n");
+    }
 }

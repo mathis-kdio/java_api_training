@@ -25,11 +25,11 @@ public class Affichage {
 
     public void resultAttack(String attackResult) {
         if (attackResult.equals("hit"))
-            System.out.println("Le tire a réussi");
+            System.out.print("Le tire a réussi\n");
         else if (attackResult.equals("sunk"))
-            System.out.println("Le bateau est coulé");
+            System.out.print("Le bateau est coulé\n");
         else
-            System.out.println("Le tire a manqué");
+            System.out.print("Le tire a manqué\n");
     }
 
 }
