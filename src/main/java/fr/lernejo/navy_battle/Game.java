@@ -15,6 +15,7 @@ public class Game {
     public final List<ArrayList<String>> playerGrid = new ArrayList<>();
     public final ArrayList<String> adversaryURL = new ArrayList<>();
     public final List<int[]> previousAttack = new ArrayList<>();
+    public final Affichage affichage = new Affichage();
 
     public Game(Boat.BoatType[] availableBoats, String[][] positionsBoats) {
         for (int i = 0; i < availableBoats.length; i++)
@@ -57,46 +58,27 @@ public class Game {
         this.adversaryGrid.get(coo.get(0)).set(coo.get(1), attackResult);
     }
 
-    public void showGrid(List<ArrayList<String>> grid) {
-        System.out.print("  ");
-        for (int i = 0; i < 10; i++)
-            System.out.print(this.alphabetCoo[i] + " ");
-        System.out.print("\n");
-        for (int i = 0; i < 10; i++) {
-            System.out.print((i+1) + " ");
-            for (int j = 0; j < 10; j++) {
-                if (grid.get(i).get(j).equals("hit") || grid.get(i).get(j).equals("sunk"))
-                    System.out.print("X ");
-                else
-                    System.out.print("* ");
-            }
-            System.out.print("\n");
-        }
-    }
-
-    public void gameTurn() {
-        //Coo à attaquer brute force
-        String coo = "A1";
+    public String generateNextCoo() { //Coo à attaquer brute force
         if (this.previousAttack.size() != 0) {
             previousAttack.get(0)[1]++; //Attaque sur rangée en dessous
             if (previousAttack.get(0)[1] > 9) { //Retour en haut si pas de rangée après
                 previousAttack.get(0)[1] = 0;
                 previousAttack.get(0)[0]++; //Colonne suivante
             }
-            coo = this.alphabetCoo[previousAttack.get(0)[0]] + (previousAttack.get(0)[1] + 1);
+            return this.alphabetCoo[previousAttack.get(0)[0]] + (previousAttack.get(0)[1] + 1);
         }
-        else
-           previousAttack.add(new int[]{0, 0});
+        else {
+            previousAttack.add(new int[]{0, 0});
+            return "A1";
+        }
+    }
 
+    public void gameTurn() {
+        String coo = generateNextCoo();
         System.out.println("Attaque de la case : " + coo);
         JSONObject jsonFireRespond = new FireRequest().fire(adversaryURL.get(0), coo);
         String attackResult = jsonFireRespond.get("consequence").toString();
-        if (attackResult.equals("hit"))
-            System.out.println("Le tire a réussi");
-        else if (attackResult.equals("sunk"))
-            System.out.println("Le bateau est coulé");
-        else
-            System.out.println("Le tire a manqué");
+        this.affichage.resultAttack(attackResult);
         if (!(Boolean) jsonFireRespond.get("shipLeft"))
             System.out.println("Partie terminée. Vous avez gagné");
         List<Integer> cell = new ArrayList<>();
@@ -104,6 +86,6 @@ public class Game {
         cell.add(previousAttack.get(0)[0]);
         addAttackOnGrid(attackResult, cell);
         System.out.println("Grille ennemie");
-        showGrid(adversaryGrid);
+        this.affichage.showGrid(adversaryGrid);
     }
 }
